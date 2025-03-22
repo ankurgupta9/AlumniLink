@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>AlumniLink - Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<style>
+body {
+	background-color: #f3f2ef;
+}
+
+.post-box {
+	background: white;
+	border-radius: 10px;
+	padding: 15px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card {
+	background: white;
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+<body>
+
+	<!-- Navigation Bar (Similar to LinkedIn) -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+		<div class="container">
+			<a class="navbar-brand fw-bold text-primary" href="#">AlumniLink</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a>
+					</li>
+					<li class="nav-item"><a class="nav-link text-danger"
+						th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Main Layout (Sidebar + Feed) -->
+	<div class="container mt-4">
+		<div class="row">
+			<!-- Left Sidebar - Profile Card -->
+			<div class="col-md-4">
+				<div class="profile-card my-2">
+					<img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2"
+						width="50px"> <a th:href="@{/profile}"
+						class="text-decoration-none text-dark"><h6
+							th:text="${username}"></h6></a>
+					<p class="text-muted" th:text="${college}"></p>
+				</div>
+			</div>
+
+			<!-- Middle Section - Create Post + Feed -->
+			<div class="col-md-8">
+				<!-- Create Post Box -->
+				<div class="post-box my-2">
+					<div class="d-flex align-items-center">
+						<img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2"
+							width="25px"> <a th:href="@{/postPage}"
+							class="text-decoration-none w-100"> <input type="text"
+							class="form-control" readonly placeholder="Start a post..."></a>
+					</div>
+					<div class="mt-2 d-flex justify-content-between">
+						<!--   <button class="btn btn-light w-100 me-2">Photo</button>-->
+						<a class="btn btn-light w-100" th:href="@{/postPage}">Write
+							Article</a>
+					</div>
+				</div>
+
+				<!-- Posts Feed -->
+				<div class="post-box my-2">
+					<h6 class="fw-bold">Latest Posts</h6>
+					<div th:if="${posts != null and not #lists.isEmpty(posts)}">
+						<div class="card border p-2 m-2" th:each="post : ${posts}">
+							<div>
+							<div class="d-flex align-items-center">
+							<img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2" width="20px">
+							<h6 class="text-muted" th:text="${post.user.name}"></h6></div>
+								<h5 class="card-title" th:text="${post.title}"></h5>
+								<p class="card-text" th:text="${post.content}"></p>
+								<small class="text-muted">Posted on: <span th:text="${post.createdAt}"></span></small>
+							</div>
+						</div>
+					</div>
+					<div class="text-center"
+						th:if="${posts == null or #lists.isEmpty(posts)}">
+						<p>No posts yet.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Sidebar - (Optional Future Widgets) -->
+			<div class="col-md-3">
+				<!-- You can add trending topics, notifications, etc. here -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

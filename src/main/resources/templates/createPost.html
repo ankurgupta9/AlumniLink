@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post | AlumniLink</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+    body {
+            background-color: #f3f2ef;
+        }
+    </style>
+</head>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">AlumniLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/home}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h3 class="text-center">Create a New Post</h3>
+        
+        <img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2" width="40px"><h6 th:text="${username}"></h6>
+        <form th:action="@{/create}" method="post" th:object="${post}">
+            <div class="mb-3">
+                <input type="text" class="form-control my-1" th:field="*{title}" placeholder="Title">
+                <textarea id="content" class="form-control my-1" rows="8" th:field="*{content}" placeholder="Write your thoughts..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary px-4">Submit Post</button>
+        </form>
+        <div class="text-center mt-3">
+            <a th:href="@{/home}" class="btn btn-danger">Cancel post</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
