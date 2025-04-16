@@ -35,8 +35,11 @@ body {
 	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 		<div class="container">
 			<a class="navbar-brand fw-bold text-primary" href="#">AlumniLink</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNav">
+			<form class="d-flex m-md-0 m-1" role="search" method="post" th:action="@{/search}">
+				<input class="form-control me-2" type="search" placeholder="Search" name="query" aria-label="Search">
+				<button class="btn btn-outline-dark" type="submit">Search</button>
+			</form>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
@@ -45,8 +48,7 @@ body {
 					</li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a>
 					</li>
-					<li class="nav-item"><a class="nav-link text-danger"
-						th:href="@{/logout}">Logout</a></li>
+					<li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -58,10 +60,8 @@ body {
 			<!-- Left Sidebar - Profile Card -->
 			<div class="col-md-4">
 				<div class="profile-card my-2">
-					<img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2"
-						width="50px"> <a th:href="@{/profile}"
-						class="text-decoration-none text-dark"><h6
-							th:text="${username}"></h6></a>
+					<img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2" width="50px"> 
+					<a th:href="@{/profile}" class="text-decoration-none text-dark"><h6 th:text="${username}"></h6></a>
 					<p class="text-muted" th:text="${college}"></p>
 				</div>
 			</div>
@@ -78,8 +78,7 @@ body {
 					</div>
 					<div class="mt-2 d-flex justify-content-between">
 						<!--   <button class="btn btn-light w-100 me-2">Photo</button>-->
-						<a class="btn btn-light w-100" th:href="@{/postPage}">Write
-							Article</a>
+						<a class="btn btn-light w-100" th:href="@{/postPage}">Write Article</a>
 					</div>
 				</div>
 
@@ -91,7 +90,7 @@ body {
 							<div>
 							<div class="d-flex align-items-center">
 							<img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2" width="20px">
-							<h6 class="text-muted" th:text="${post.user.name}"></h6></div>
+							<a th:href="@{/profileVisit/{id}(id=${post.user.id})}" style="text-decoration: none; color: inherit;"><h6 class="text-muted" th:text="${post.user.name}"></h6></a></div>
 								<h5 class="card-title" th:text="${post.title}"></h5>
 								<p class="card-text" th:text="${post.content}"></p>
 								<small class="text-muted">Posted on: <span th:text="${post.createdAt}"></span></small>

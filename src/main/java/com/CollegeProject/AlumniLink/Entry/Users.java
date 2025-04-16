@@ -19,6 +19,7 @@ public class Users {
 	private String email;
 	private String password;
 	private String college;
+	private String enrollment;
 	
 //	public Users(Integer id, String name, String email, String password, String college) {
 //		super();
@@ -28,8 +29,16 @@ public class Users {
 //		this.password = password;
 //		this.college = college;
 //	}
-	
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    public String getEnrollment() {
+		return enrollment;
+	}
+
+	public void setEnrollment(String enrollment) {
+		this.enrollment = enrollment;
+	}
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Posts> posts; // A user can have multiple posts
 
 	public Integer getId() {
@@ -75,9 +84,7 @@ public class Users {
 	@Override
 	public String toString() {
 		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", college="
-				+ college + "]";
+				+ college + ", enrollment=" + enrollment + "]";
 	}
-	
-	
-	
+
 }

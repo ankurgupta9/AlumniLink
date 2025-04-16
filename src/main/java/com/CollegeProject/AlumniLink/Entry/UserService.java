@@ -44,6 +44,15 @@ public class UserService {
 		Users user = repo.findByEmail(email);
 		return user;
 	}
+
+	public List<Users> getUserbyname(String name){
+		return repo.findByNameContainingIgnoreCase(name);
+	}
+
+	public Users getUserbyid(Integer id){
+		Users user = repo.findById(id).orElse(null); 
+		return user;
+	}
 	
 	public boolean savePost(Posts post, Integer userId) {
 		try {

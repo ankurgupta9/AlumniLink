@@ -50,6 +50,7 @@ body {
 					<h4 th:text="${name}"></h4>
 					<p class="text-muted" th:text="${email}"></p>
 					<p class="text-muted" th:text="${college}"></p>
+					<p class="text-muted" th:text="${enrollment}"></p>
 				</div>
 			</div>
 
@@ -71,7 +72,7 @@ body {
 					<a class="btn btn-success" th:href="@{/postPage}">Create a Post</a>
 				</div>
 				<div class="post-box my-2">
-					<h6 class="fw-bold">My Posts</h6>
+					<h6 class="fw-bold">All Posts</h6>
 					<div th:if="${posts != null and not #lists.isEmpty(posts)}">
 						<div class="card border p-2 m-2" th:each="post : ${posts}">
 							<div>

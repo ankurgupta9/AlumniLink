@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +17,11 @@ import com.CollegeProject.AlumniLink.Entry.Users;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 //import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-//@RequestMapping("/")
+
+@Controller //MVC Controller or Web Controller
 public class Mycontroller {
 
 	@Autowired
@@ -54,6 +57,7 @@ public class Mycontroller {
 
 	@GetMapping("/profile")
 	public String profilePage(Model model, HttpSession session) {
+		
 		Users details = (Users) session.getAttribute("loggedInUser");
 
 		if (details == null) {
@@ -63,6 +67,27 @@ public class Mycontroller {
 		model.addAttribute("name", details.getName());
 		model.addAttribute("email", details.getEmail());
 		model.addAttribute("college", details.getCollege());
+		model.addAttribute("enrollment", details.getEnrollment());
+		
+		List<Posts> userPosts = service.getPostsByUserId(details.getId());
+	    model.addAttribute("posts", userPosts);
+	    
+		return "profile";
+	}
+
+	@GetMapping("/profileVisit/{id}")
+	public String Visitorprofile(Model model, @PathVariable Integer id) {
+		
+		Users details = service.getUserbyid(id);
+
+		if (details == null) {
+			return "redirect:/loginPage"; // Redirect if not logged in
+		}
+
+		model.addAttribute("name", details.getName());
+		model.addAttribute("email", details.getEmail());
+		model.addAttribute("college", details.getCollege());
+		model.addAttribute("enrollment", details.getEnrollment());
 		
 		List<Posts> userPosts = service.getPostsByUserId(details.getId());
 	    model.addAttribute("posts", userPosts);
@@ -141,10 +166,18 @@ public class Mycontroller {
 		}
 		return "redirect:/postPage";
 	}
-	
+
+	@PostMapping("/search")
+	public String SearchPage(@RequestParam String query, Model model) {
+
+		List<Users> user = service.getUserbyname(query);
+		model.addAttribute("user",user);
+		return "search";
+	}
+		
 }
 
-@RestController
+@RestController //REST API
 class fetchUsers{
 	
 	@Autowired
@@ -152,6 +185,6 @@ class fetchUsers{
 	
 	@GetMapping("/getallusers")
 	public List<Users> getUsers(){
-		return service.getUsersAll();	
+		return service.getUsersAll();
 	}
 }

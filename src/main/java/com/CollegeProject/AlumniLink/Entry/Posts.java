@@ -75,7 +75,6 @@ public class Posts {
 				+ createdAt + ", user=" + user + "]";
 	}
 
-	
 
 
 
