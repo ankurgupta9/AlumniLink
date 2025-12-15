@@ -1,12 +1,14 @@
-package com.CollegeProject.AlumniLink.Entry;
+package com.CollegeProject.AlumniLink.model;
 
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -20,6 +22,17 @@ public class Users {
 	private String password;
 	private String college;
 	private String enrollment;
+	private String Course;
+	private String currentCompany;
+	private String CompanyProfile;
+    private String about;
+    private String linkedinUrl;
+	@Lob
+@Column(name = "profile_image", columnDefinition = "LONGBLOB")
+private byte[] profileImage;
+
+	// private String UserType;
+
 	
 //	public Users(Integer id, String name, String email, String password, String college) {
 //		super();
@@ -30,7 +43,57 @@ public class Users {
 //		this.college = college;
 //	}
 
-    public String getEnrollment() {
+public byte[] getProfileImage() {
+    return profileImage;
+}
+
+public void setProfileImage(byte[] profileImage) {
+    this.profileImage = profileImage;
+}
+
+
+
+    public String getCurrentCompany() {
+		return currentCompany;
+	}
+
+	public void setCurrentCompany(String currentCompany) {
+		this.currentCompany = currentCompany;
+	}
+
+	public String getCompanyProfile() {
+		return CompanyProfile;
+	}
+
+	public void setCompanyProfile(String companyProfile) {
+		CompanyProfile = companyProfile;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public String getLinkedinUrl() {
+		return linkedinUrl;
+	}
+
+	public void setLinkedinUrl(String linkedinUrl) {
+		this.linkedinUrl = linkedinUrl;
+	}
+
+	public String getCourse() {
+		return Course;
+	}
+
+	public void setCourse(String course) {
+		Course = course;
+	}
+
+	public String getEnrollment() {
 		return enrollment;
 	}
 
@@ -84,7 +147,12 @@ public class Users {
 	@Override
 	public String toString() {
 		return "Users [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", college="
-				+ college + ", enrollment=" + enrollment + "]";
+				+ college + ", enrollment=" + enrollment + ", Course=" + Course + ", currentCompany=" + currentCompany
+				+ ", CompanyProfile=" + CompanyProfile + ", about=" + about + ", linkedinUrl=" + linkedinUrl + "]";
 	}
+
+	
+
+	
 
 }

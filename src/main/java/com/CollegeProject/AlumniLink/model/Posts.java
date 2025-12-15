@@ -1,6 +1,7 @@
-package com.CollegeProject.AlumniLink.Entry;
+package com.CollegeProject.AlumniLink.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Posts {
@@ -15,11 +16,27 @@ public class Posts {
     
     private Integer likes;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+	@Column(nullable = false)
+    private String tag;
+
+
+    public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Foreign key to Users table
     private Users user;
+
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
 
 	public Integer getId() {
 		return id;
@@ -71,12 +88,8 @@ public class Posts {
 
 	@Override
 	public String toString() {
-		return "Posts [id=" + id + ", title=" + title + ", content=" + content + ", likes=" + likes + ", createdAt="
-				+ createdAt + ", user=" + user + "]";
+		return "Posts [id=" + id + ", title=" + title + ", content=" + content + ", likes=" + likes + ", tag=" + tag
+				+ ", createdAt=" + createdAt + ",user=" + user +"]";
 	}
-
-
-
-
     
 }

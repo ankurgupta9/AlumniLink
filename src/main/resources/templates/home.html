@@ -1,119 +1,202 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>AlumniLink - Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<style>
-body {
-	background-color: #f3f2ef;
-}
+    <meta charset="UTF-8">
+    <title>AlumniLink - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-.post-box {
-	background: white;
-	border-radius: 10px;
-	padding: 15px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-.profile-card {
-	background: white;
-	border-radius: 10px;
-	padding: 20px;
-	text-align: center;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-</style>
+        .navbar {
+            background-color: #1f2e4d;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #ffce54 !important;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .post-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-light {
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: #1f2e4d;
+            color: white;
+        }
+
+        a {
+            color: #1f2e4d;
+        }
+
+        a:hover {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2e4d;
+        }
+
+        .text-muted {
+            font-size: 0.9rem;
+        }
+
+        .comment-link {
+            color: #0d6efd;
+            font-weight: 500;
+        }
+
+        .comment-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
 
-	<!-- Navigation Bar (Similar to LinkedIn) -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-		<div class="container">
-			<a class="navbar-brand fw-bold text-primary" href="#">AlumniLink</a>
-			<form class="d-flex m-md-0 m-1" role="search" method="post" th:action="@{/search}">
-				<input class="form-control me-2" type="search" placeholder="Search" name="query" aria-label="Search">
-				<button class="btn btn-outline-dark" type="submit">Search</button>
-			</form>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a>
-					</li>
-					<li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}">Logout</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">AlumniLink</a>
+            <form class="d-flex m-md-0 m-1" role="search" method="post" th:action="@{/search}">
+                <input class="form-control me-2" type="search" placeholder="Search" name="query">
+                <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" th:if="${session.loggedInUser != null and session.loggedInUser.id == 999}">
+                        <a class="nav-link text-warning" th:href="@{/admin/dashboard}">
+                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                        </a>
+                    </li>
 
-	<!-- Main Layout (Sidebar + Feed) -->
-	<div class="container mt-4">
-		<div class="row">
-			<!-- Left Sidebar - Profile Card -->
-			<div class="col-md-4">
-				<div class="profile-card my-2">
-					<img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2" width="50px"> 
-					<a th:href="@{/profile}" class="text-decoration-none text-dark"><h6 th:text="${username}"></h6></a>
-					<p class="text-muted" th:text="${college}"></p>
-				</div>
-			</div>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning" th:href="@{/logout}"><i
+                                class="bi bi-box-arrow-right me-1"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-			<!-- Middle Section - Create Post + Feed -->
-			<div class="col-md-8">
-				<!-- Create Post Box -->
-				<div class="post-box my-2">
-					<div class="d-flex align-items-center">
-						<img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2"
-							width="25px"> <a th:href="@{/postPage}"
-							class="text-decoration-none w-100"> <input type="text"
-							class="form-control" readonly placeholder="Start a post..."></a>
-					</div>
-					<div class="mt-2 d-flex justify-content-between">
-						<!--   <button class="btn btn-light w-100 me-2">Photo</button>-->
-						<a class="btn btn-light w-100" th:href="@{/postPage}">Write Article</a>
-					</div>
-				</div>
+    <!-- Main Layout -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Left Sidebar - Profile -->
+            <div class="col-md-4">
+                <div class="profile-card">
+                    <img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2" width="60px">
+                    <a th:href="@{/profile}" class="text-decoration-none">
+                        <h5 th:text="${username}"></h5>
+                    </a>
+                    <p class="text-muted mb-0 text-wrap" th:text="${about}"></p>
+                    <p class="text-muted mb-0" th:text="${college}"></p>
+                </div>
+            </div>
 
-				<!-- Posts Feed -->
-				<div class="post-box my-2">
-					<h6 class="fw-bold">Latest Posts</h6>
-					<div th:if="${posts != null and not #lists.isEmpty(posts)}">
-						<div class="card border p-2 m-2" th:each="post : ${posts}">
-							<div>
-							<div class="d-flex align-items-center">
-							<img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2" width="20px">
-							<a th:href="@{/profileVisit/{id}(id=${post.user.id})}" style="text-decoration: none; color: inherit;"><h6 class="text-muted" th:text="${post.user.name}"></h6></a></div>
-								<h5 class="card-title" th:text="${post.title}"></h5>
-								<p class="card-text" th:text="${post.content}"></p>
-								<small class="text-muted">Posted on: <span th:text="${post.createdAt}"></span></small>
-							</div>
-						</div>
-					</div>
-					<div class="text-center"
-						th:if="${posts == null or #lists.isEmpty(posts)}">
-						<p>No posts yet.</p>
-					</div>
-				</div>
-			</div>
+            <!-- Center Feed -->
+            <div class="col-md-8">
+                <!-- Create Post Box -->
+                <div class="post-box">
+                    <div class="d-flex align-items-center mb-2">
+                        <img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2" width="30px">
+                        <a th:href="@{/postPage}" class="w-100 text-decoration-none">
+                            <input type="text" class="form-control" readonly placeholder="Start a post...">
+                        </a>
+                    </div>
+                    <a class="btn btn-light w-100" th:href="@{/postPage}"><i class="bi bi-pencil-square me-2"></i>Write
+                        Article</a>
+                </div>
 
-			<!-- Right Sidebar - (Optional Future Widgets) -->
-			<div class="col-md-3">
-				<!-- You can add trending topics, notifications, etc. here -->
-			</div>
-		</div>
-	</div>
+                <!-- Posts -->
+                <div class="post-box">
+                    <form th:action="@{/filter}" method="get" class="d-flex align-items-center">
+                        <label for="tagFilter" class="me-1 fw-bold ms-auto">Filter by Tag:</label>
+                        <select class="form-select w-auto me-2" name="tag" id="tagFilter" onchange="this.form.submit()">
+                            <option value="">All</option>
+                            <option value="General" th:selected="${selectedTag == 'General'}">General</option>
+                            <option value="Hiring" th:selected="${selectedTag == 'Hiring'}">Hiring</option>
+                            <option value="Event" th:selected="${selectedTag == 'Event'}">Event</option>
+                            <option value="Notice" th:selected="${selectedTag == 'Notice'}">Notice</option>
+                        </select>
+                    </form>
+                    <h6 class="fw-bold mb-3">📢 Latest Posts</h6>
+                    <div th:if="${posts != null and not #lists.isEmpty(posts)}">
+                        <div class="card mb-3 border" th:each="post : ${posts}">
+                            <div class="d-flex align-items-center mb-2">
+                                <img th:src="@{/images/bpic.jpg}" class="rounded-circle me-2" width="25px">
+                                <a th:href="@{/profileVisit/{id}(id=${post.user.id})}" class="text-decoration-none">
+                                    <h6 class="text-muted mb-0" th:text="${post.user.name}"></h6>
+                                </a>
+                            </div>
+                            <h5 class="card-title" th:text="${post.title}"></h5>
+                            <pre
+                                style="font-family: Arial, sans-serif;"><p class="card-text" th:text="${post.content}"></p></pre>
+                            <small class="text-muted">Posted on: <span th:text="${post.createdAt}"></span><span class="bg-warning text-dark px-1 rounded mx-1" th:text="${post.tag}"></span></small>
+                            <hr>
+                            <a th:href="@{'/post/' + ${post.id}}"
+                                class="comment-link text-decoration-none text-center"><i
+                                    class="bi bi-chat-left-text me-1"></i>Comment</a>
+                        </div>
+                    </div>
+                    <div class="text-center" th:if="${posts == null or #lists.isEmpty(posts)}">
+                        <p>No posts yet.</p>
+                    </div>
+                </div>
+            </div>
 
-	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+            <div class="col-md-3 d-none d-md-block">
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

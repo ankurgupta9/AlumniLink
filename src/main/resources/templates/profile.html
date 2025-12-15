@@ -1,94 +1,146 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile - AlumniLink</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<style>
-body {
-	background-color: #f3f2ef;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - AlumniLink</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-.post-box {
-	background: white;
-	border-radius: 10px;
-	padding: 15px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-</style>
+        .navbar {
+            background-color: #1f2e4d;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            background-color: #fff;
+            border: none;
+        }
+
+        .btn-outline-primary {
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .btn-success {
+            border-radius: 20px;
+        }
+
+        .post-box {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .text-muted {
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-		<div class="container">
-			<a class="navbar-brand fw-bold text-primary" href="#">AlumniLink</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a>
-					</li>
-					<li class="nav-item"><a class="nav-link text-danger"
-						th:href="@{/logout}">Logout</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
 
-	<div class="container mt-4">
-		<div class="row">
-			<!-- Profile Card -->
-			<div class="col-md-4">
-				<div class="card p-3">
-					<img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-2"
-						width="150" alt="Profile">
-					<h4 th:text="${name}"></h4>
-					<p class="text-muted" th:text="${email}"></p>
-					<p class="text-muted" th:text="${college}"></p>
-					<p class="text-muted" th:text="${enrollment}"></p>
-				</div>
-			</div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">AlumniLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-1"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-			<!-- Profile Details -->
-			<div class="col-md-8">
-				<!--<div class="card p-4">
-					<h3>About Me</h3>
-					  <p th:text="${user.about}" class="text-muted"></p> 
+    <!-- Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Profile Card -->
+            <div class="col-md-4">
+                <div class="card p-4 text-center">
+                    <img th:src="@{/images/bpic.jpg}" class="rounded-circle mb-3 border border-3" width="120" alt="Profile">
+                    <h4 class="fw-bold" th:text="${name}"></h4>
 
-					<h4 class="mt-3">Work & Education</h4>
-					<ul>
-                        <li th:each="work : ${user.workExperience}" th:text="${work}"></li>
-                    </ul>
-                    <ul>
-                        <li th:each="education : ${user.education}" th:text="${education}"></li>
-                    </ul> 
-				</div>-->
-				<div class="my-1 d-flex justify-content-end">
-					<a class="btn btn-success" th:href="@{/postPage}">Create a Post</a>
-				</div>
-				<div class="post-box my-2">
-					<h6 class="fw-bold">All Posts</h6>
-					<div th:if="${posts != null and not #lists.isEmpty(posts)}">
-						<div class="card border p-2 m-2" th:each="post : ${posts}">
-							<div>
-								<h5 class="card-title" th:text="${post.title}"></h5>
-								<p class="card-text" th:text="${post.content}"></p>
-								<small>Posted on: <span th:text="${post.createdAt}"></span></small>
-							</div>
-						</div>
-					</div>
-					<div class="text-center" th:if="${posts == null or #lists.isEmpty(posts)}">
-							<p>No posts yet.</p>
-						</div>
-				</div>
-			</div>
-		</div>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <small class="text-muted d-block mb-2" th:text="${email}"></small>
+                    <hr>
+                    <div class="text-start">
+                        <span th:if="${userType == 'Alumni'}" class="badge bg-success">Alumni</span><span th:if="${userType == 'Student'}" class="badge bg-primary">Student</span>
+                        <p><i class="bi bi-building"></i> <strong>College:</strong> <span th:text="${college}"></span></p>
+                        <p><i class="bi bi-hash"></i> <strong>Enrollment No:</strong> <span th:text="${enrollment}"></span></p>
+                        <p><i class="bi bi-mortarboard"></i> <strong>Course:</strong> <span th:text="${course}"></span></p>
+                        <p><i class="bi bi-briefcase"></i> <strong>Company:</strong> <span th:text="${currentcompany} ?: 'Not added yet'"></span></p>
+                        <p><i class="bi bi-person-badge"></i> <strong>Designation:</strong> <span th:text="${profile} ?: 'Not added yet'"></span></p>
+                        <p><i class="bi bi-linkedin"></i> <strong>LinkedIn:</strong> <a th:href="${linkedin}" target="_blank" th:text="${linkedin} ?: 'Not added yet'"></a></p>
+                    </div>
+                    <a class="btn btn-outline-primary mt-3" th:href="@{/moredetails}"><i class="bi bi-pencil-square me-1"></i> Edit Profile</a>
+                </div>
+            </div>
+
+            <!-- Posts + About -->
+            <div class="col-md-8">
+                <div class="card p-4 mb-3">
+                    <h4 class="mb-3">About Me</h4>
+                    <p class="text-muted" th:text="${about} ?: 'No bio yet.'"></p>
+                </div>
+
+                <div class="d-flex justify-content-end mb-2">
+                    <a class="btn btn-success" th:href="@{/postPage}"><i class="bi bi-plus-circle me-1"></i> Create a Post</a>
+                </div>
+
+                <div class="post-box">
+                    <h6 class="fw-bold">📬 All Posts</h6>
+                    <div th:if="${posts != null and not #lists.isEmpty(posts)}">
+                        <div class="card mb-3 p-3" th:each="post : ${posts}">
+                            <h5 class="card-title" th:text="${post.title}"></h5>
+                            <pre  style="font-family: Arial, sans-serif;"><p class="card-text" th:text="${post.content}"></p></pre>
+                            <small class="text-muted">Posted on: <span th:text="${post.createdAt}"></span><span class="bg-secondary text-light px-1 rounded mx-1" th:text="${post.tag}"></span></small>
+                            <form th:action="${post.id}" method="get" class="mt-2 ms-auto">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i> Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="text-center" th:if="${posts == null or #lists.isEmpty(posts)}">
+                        <p>No posts yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

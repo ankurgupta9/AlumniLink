@@ -1,0 +1,30 @@
+<!-- adminAnnouncement.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Announcement - AlumniLink</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Create an Announcement</h3>
+    <form th:action="@{/admin/postAnnouncement}" method="post" th:object="${post}">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" placeholder="Enter announcement title" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" rows="6" th:field="*{content}" placeholder="Write the announcement here..." required></textarea>
+        </div>
+        <input type="hidden" th:field="*{tag}" th:value="'Announcement'" />
+        <button type="submit" class="btn btn-primary">Post Announcement</button>
+        <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>
